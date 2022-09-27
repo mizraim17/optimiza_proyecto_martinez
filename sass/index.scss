@@ -1,0 +1,89 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;900&display=swap");
+
+* {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+// variables
+
+$gray: #3c3c3c;
+$gray-2: #555;
+$blue: #c7f5db;
+$rose: #ee918b;
+$rose-2: #f56d8f;
+
+body {
+	background: $gray;
+}
+
+.blur-image {
+	filter: blur(11px);
+}
+
+.colum-list-suspects {
+	background-color: $gray-2;
+	padding: 2%;
+}
+
+.base-list {
+	color: white;
+	font-weight: 500;
+	font-style: italic;
+}
+
+.list-weapons,
+.list-suspects {
+	@extend .base-list;
+}
+
+.margin-5 {
+	margin-top: 2%;
+}
+.tit-list-suspects,
+.tit-list-weapons {
+	padding-top: 8%;
+	color: $blue;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.tit-points,
+.tit-weapon {
+	color: $blue;
+	font-size: 22px;
+	font-weight: bold;
+}
+
+#name_suspect,
+#name_weapon {
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.name_correct {
+	color: #faffa8;
+	padding: 2%;
+	background-color: rgba(240, 240, 240, 0.1);
+}
+
+.name_incorrect {
+	color: $rose-2;
+	padding: 2%;
+}
+
+#person_murder {
+	color: $rose;
+	font-size: 24px;
+	font-weight: bold;
+
+	span {
+		color: $blue;
+	}
+}
+
+.card-special {
+	width: 200px;
+	height: 370px;
+}

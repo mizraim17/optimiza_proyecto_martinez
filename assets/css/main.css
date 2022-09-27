@@ -1,0 +1,62 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;900&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  list-style: none; }
+
+body {
+  background: #3c3c3c; }
+
+.blur-image {
+  filter: blur(11px); }
+
+.colum-list-suspects {
+  background-color: #555;
+  padding: 2%; }
+
+.base-list, .list-weapons,
+.list-suspects {
+  color: white;
+  font-weight: 500;
+  font-style: italic; }
+
+.margin-5 {
+  margin-top: 2%; }
+
+.tit-list-suspects,
+.tit-list-weapons {
+  padding-top: 8%;
+  color: #c7f5db;
+  font-size: 20px;
+  font-weight: bold; }
+
+.tit-points,
+.tit-weapon {
+  color: #c7f5db;
+  font-size: 22px;
+  font-weight: bold; }
+
+#name_suspect,
+#name_weapon {
+  font-size: 18px;
+  font-weight: bold; }
+
+.name_correct {
+  color: #faffa8;
+  padding: 2%;
+  background-color: rgba(240, 240, 240, 0.1); }
+
+.name_incorrect {
+  color: #f56d8f;
+  padding: 2%; }
+
+#person_murder {
+  color: #ee918b;
+  font-size: 24px;
+  font-weight: bold; }
+  #person_murder span {
+    color: #c7f5db; }
+
+.card-special {
+  width: 200px;
+  height: 370px; }
