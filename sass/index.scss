@@ -6,13 +6,25 @@
 	list-style: none;
 }
 
+ul {
+	padding-left: 0;
+}
+
+a:link,
+a:visited,
+a:active {
+	text-decoration: none;
+	color: white;
+}
+
 // variables
 
-$gray: #3c3c3c;
-$gray-2: #555;
-$blue: #c7f5db;
-$rose: #ee918b;
+$gray: #221d21;
+$gray-2: #433d3d;
+$red-2: #8de0a6;
+$rose: #f27c7c;
 $rose-2: #f56d8f;
+$blue: #6bacbf;
 
 body {
 	background: $gray;
@@ -44,20 +56,21 @@ body {
 .tit-list-suspects,
 .tit-list-weapons {
 	padding-top: 8%;
-	color: $blue;
+	color: $red-2;
 	font-size: 20px;
 	font-weight: bold;
 }
 
 .tit-points,
 .tit-weapon {
-	color: $blue;
+	color: $rose;
 	font-size: 22px;
 	font-weight: bold;
 }
 
 #name_suspect,
-#name_weapon {
+#name_weapon,
+#name_rooms {
 	font-size: 18px;
 	font-weight: bold;
 }
@@ -74,16 +87,37 @@ body {
 }
 
 #person_murder {
-	color: $rose;
+	text-shadow: 1px 1px 2px black;
+	color: $blue;
 	font-size: 24px;
 	font-weight: bold;
 
 	span {
-		color: $blue;
+		color: $rose;
 	}
 }
 
-.card-special {
-	width: 200px;
-	height: 370px;
+.cardz {
+	background-color: white;
+	box-shadow: 0 4px 8px 0 rgba(120, 72, 72, 0.2);
+	transition: 0.3s;
+	width: 80%;
+	border-radius: 15px;
+	height: 244px;
+	width: 139px;
+}
+
+.cardz-title {
+	font-weight: bold;
+	text-decoration: none;
+	color: #f77014;
+	text-align: center;
+}
+
+.cardz:hover {
+	box-shadow: 0 8px 16px 0 rgba(255, 255, 255, 0.75);
+}
+
+.container {
+	padding: 2px 16px;
 }

@@ -28,7 +28,7 @@ const roomsArray = [
 
 const weaponsArray = [
 	{ id: 0, nombre: "Olla", name_image: "olla" },
-	{ id: 1, nombre: "Sai", name_image: "sai" },
+	{ id: 1, nombre: "Limonada", name_image: "limonada" },
 	{ id: 2, nombre: "Pistola", name_image: "pistola" },
 	{ id: 3, nombre: "Soplete", name_image: "soplete" },
 	{ id: 4, nombre: "Engrapadora en gelatina", name_image: "engrapadora" },
@@ -191,9 +191,9 @@ let checkWeapons = (arrayWeapons, idWeapon) => {
 };
 
 let checkRooms = (arrayRooms, idRoom) => {
-	console.log("arrya llega ", arrayRooms, "id de arma", idRoom);
+	console.log("arrya llega ", arrayRooms, "id de lugar", idRoom);
 
-	console.log("---arma tecleada id", roomsArray[idRoom].nombre);
+	console.log("---lugar tecleada id", roomsArray[idRoom].nombre);
 
 	const copyArrRooms = arrayRooms;
 
@@ -213,15 +213,40 @@ let checkRooms = (arrayRooms, idRoom) => {
 		paintingRooms(arrayRooms);
 		generateListRooms(arrayRooms);
 
-		name_rooms.innerHTML = `No es el arma ${roomsArray[idRoom].nombre}`;
+		name_rooms.innerHTML = `No es el lugar la ${roomsArray[idRoom].nombre}`;
 		name_rooms.classList = "name_incorrect";
 	} else if (roomsArray[id_room].id == idRoom) {
 		// console.log("-------------------------- entro");
-		name_rooms.innerHTML = `Si es el arma ${roomsArray[id_room].nombre}`;
+		name_rooms.innerHTML = `Si es el lugar ${roomsArray[id_room].nombre}`;
 		name_rooms.classList = "name_correct";
 
-		showWeapon();
+		showRooms();
 	}
+};
+
+let showRooms = () => {
+	let column = document.createElement("div");
+
+	id_room = localStorage.getItem("id_room");
+	containerRooms.innerHTML = "";
+
+	column.className = "col-md-3 mt-3";
+	column.id = `weapon-${roomsArray[id_room].id}`;
+	column.innerHTML = `
+	<div class="card bg-success">
+  	<img src="./rooms/${roomsArray[id_room].name_image}.png" id="imgId-${roomsArray[id_room].id}" class="card-img-top " alt="...">
+	 	<div class="container">
+    	<pclass="card-title text-white">${roomsArray[id_room].nombre}</p>  
+			<a href="#" id="btn-poss-weapon-${roomsArray[id_room].id}" class="btn btn-primary">con está arma</a> 
+  	</div>
+	</div>`;
+
+	containerRooms.append(column);
+
+	containerListRooms.innerHTML = "";
+	let list = document.createElement("li");
+	list.innerHTML = `<p class="list-Rooms" > ${id_room}.- ${roomsArray[id_room].nombre} \n </p> `;
+	containerListRooms.appendChild(list);
 };
 
 let showAssasin = () => {
@@ -233,11 +258,11 @@ let showAssasin = () => {
 	column.className = "col-md-3 mt-3";
 	column.id = `character-${suspectsArray[id_assasin].id}`;
 	column.innerHTML = `
-	<div class="card card-special"  >
+	<div class="card card-special bg-success text-white"  >
   	<img src="./characters/${suspectsArray[id_assasin].name_image}.png" id="imgId-${suspectsArray[id_assasin].id}" class="card-img-top " alt="...">
   	<div class="card-body">
-    	<pclass="card-title">${suspectsArray[id_assasin].nombre}</p>
-    	<a href="#" id="btn-possAssesin-${suspectsArray[id_assasin].id}" class="btn btn-primary">tú fuiste</a>
+    	<pclass="cardz-title">${suspectsArray[id_assasin].nombre}</p>
+    	<a href="#" id="btn-possAssesin-${suspectsArray[id_assasin].id}" class="btn btn-danger text-white">Asesino Encontrado</a>
   	</div>
 	</div>`;
 
@@ -257,8 +282,8 @@ let showWeapon = () => {
 	column.className = "col-md-3 mt-3";
 	column.id = `weapon-${weaponsArray[id_weapon].id}`;
 	column.innerHTML = `
-	<div class="card card-special">
-		<img src="./weapons/${weaponsArray[id_weapon].name_image}.jpg" id="imgId-${weaponsArray[id_weapon].id}" class="card-img-top " alt="...">
+	<div class="card card-special bg-success text-white">
+		<img src="./weapons/${weaponsArray[id_weapon].name_image}.png" id="imgId-${weaponsArray[id_weapon].id}" class="card-img-top " alt="...">
 		<div class="card-body">
 			<pclass="card-title">${weaponsArray[id_weapon].nombre}</p>
 			<a href="#" id="btn-poss-weapon-${weaponsArray[id_weapon].id}" class="btn btn-primary">con está arma</a>
@@ -279,15 +304,19 @@ let paintingCharacters = (arrSuspects) => {
 	arrSuspects.forEach((character) => {
 		let column = document.createElement("div");
 
-		column.className = "col-md-3 mt-3";
+		column.className = "col-md-2 mt-3";
 		column.id = `character-${character.id}`;
-		column.innerHTML = `<div class="card card-special" >
-		<img src="./characters/${character.name_image}.png" id="imgId-${character.id}" class="card-img-top " alt="...">
-		<div class="card-body">
-    <pclass="card-title">${character.nombre}</p>
-    <a href="#" id="btn-possAssesin-${character.id}" class="btn btn-primary">tú fuiste</a>
-		</div>
-		</div>`;
+		column.innerHTML = `
+		<a href="#" id="btn-possAssesin-${character.id}"  >
+			<div class="cardz">		
+				<img src="./characters/${character.name_image}.png" id="imgId-${character.id}" class="rounded"  style="width:100%" >
+				<div class="container">
+					<p class="cardz-title">${character.nombre}</p>
+					
+				</div>
+			</div>
+		</a>
+		`;
 
 		containerCharacters.append(column);
 		let btnAccuse = document.getElementById(`btn-possAssesin-${character.id}`);
@@ -305,13 +334,13 @@ let paintingWeapons = (arrWeapons) => {
 		// console.log("weapon id----------------------", weapon.id);
 		// console.log("weapon name----------------------", weapon.nombre);
 
-		column.className = "col-md-3 mt-3";
+		column.className = "col-md-3  mt-3";
 		column.id = `weapon-${weapon.id}`;
 		column.innerHTML = `<div class="card card-special"  >
-  	<img src="./weapons/${weapon.name_image}.jpg" id="imgId-${weapon.id}" class="card-img-top " alt="...">
+  	<img src="./weapons/${weapon.name_image}.png" id="imgId-${weapon.id}" class="card-img-top " alt="...">
   	<div class="card-body">
     <pclass="card-title">${weapon.nombre}</p>
-    <a href="#" id="btn-poss-weapon-${weapon.id}" class="btn btn-primary">tú fuiste</a>
+    <a href="#" id="btn-poss-weapon-${weapon.id}" class="btn btn-primary">fue esta</a>
 		</div>
 		</div>`;
 
@@ -329,16 +358,13 @@ let paintingRooms = (arrRooms) => {
 	arrRooms.forEach((rooms) => {
 		let column = document.createElement("div");
 
-		// console.log("rooms id----------------------", rooms.id);
-		// console.log("rooms name----------------------", rooms.nombre);
-
 		column.className = "col-md-3 mt-3";
 		column.id = `rooms-${rooms.id}`;
 		column.innerHTML = `<div class="card card-special"  >
-  	<img src="./rooms/${rooms.name_image}.jpg" id="imgId-${rooms.id}" class="card-img-top " alt="...">
+  	<img src="./rooms/${rooms.name_image}.png" id="imgId-${rooms.id}" class="card-img-top " alt="...">
   	<div class="card-body">
     <pclass="card-title">${rooms.nombre}</p>
-    <a href="#" id="btn-poss-rooms-${rooms.id}" class="btn btn-primary">tú fuiste</a>
+    <a href="#" id="btn-poss-rooms-${rooms.id}" class="btn btn-primary">fue aquí</a>
 		</div>
 		</div>`;
 
@@ -385,25 +411,25 @@ let paintMurder = (id_murder) =>
 	(person_murder.innerHTML = `Mataron a <span> ${suspectsArray[id_murder].nombre} </span> tienes que adivinar quien fue, con que lo mataron y donde lo mato`);
 
 let main = () => {
-	arrToPlay = genereAssesinMurder();
-	// console.log("arrToPlay", arrToPlay[0], "arrToPlay-1", arrToPlay[1]);
-	// console.log("=====A", arrToPlay[1]);
-
-	//pinta suspects, weapons and rooms
-	paintMurder(arrToPlay[1]);
-	paintingWeapons(weaponsArray);
-	paintingRooms(roomsArray);
-	genereMistery(arrToPlay);
-
-	//Get variables of dom
+	//Stores elements in variables
 	initElements();
+
+	//Generate name person murder and array without person murdered
+	arrToPlay = genereAssesinMurder();
 
 	//Generete suspects, weapons and rooms
 	generateListSuspects(arrToPlay[0]);
 	generateListWeapons(weaponsArray);
 	generateListRooms(roomsArray);
 
+	//paints suspects, weapons and rooms in the dom
+	paintMurder(arrToPlay[1]);
+	paintingWeapons(weaponsArray);
+	paintingRooms(roomsArray);
 	paintingCharacters(arrToPlay[0]);
+
+	//generates  assasin, person murder, where die and what weapon was use
+	genereMistery(arrToPlay);
 };
 
 main();
