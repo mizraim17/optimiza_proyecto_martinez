@@ -35,11 +35,8 @@ const weaponsArray = [
 ];
 
 //Function generate number random depending of size of array
-let doRandom = (arrSearch) => {
-	let x = Math.round(Math.random() * (arrSearch.length - 1));
-
-	return x;
-};
+let doRandom = (arrSearch) =>
+	Math.round(Math.random() * (arrSearch.length - 1));
 
 //Generate array without person die because he dont cant be the murder
 let listWithoutMurder = (nameDiedPerson) => {
@@ -236,7 +233,7 @@ let showRooms = () => {
 	<div class="card bg-success">
   	<img src="./rooms/${roomsArray[id_room].name_image}.png" id="imgId-${roomsArray[id_room].id}" class="card-img-top " alt="...">
 	 	<div class="container">
-    	<pclass="card-title text-white">${roomsArray[id_room].nombre}</p>  
+    	<p class="card-title text-white">${roomsArray[id_room].nombre}</p>  
 			<a href="#" id="btn-poss-weapon-${roomsArray[id_room].id}" class="btn btn-primary">con está arma</a> 
   	</div>
 	</div>`;
@@ -285,7 +282,7 @@ let showWeapon = () => {
 	<div class="card card-special bg-success text-white">
 		<img src="./weapons/${weaponsArray[id_weapon].name_image}.png" id="imgId-${weaponsArray[id_weapon].id}" class="card-img-top " alt="...">
 		<div class="card-body">
-			<pclass="card-title">${weaponsArray[id_weapon].nombre}</p>
+			<p class="card-title">${weaponsArray[id_weapon].nombre}</p>
 			<a href="#" id="btn-poss-weapon-${weaponsArray[id_weapon].id}" class="btn btn-primary">con está arma</a>
 		</div>
 	</div>`;
@@ -307,12 +304,12 @@ let paintingCharacters = (arrSuspects) => {
 		column.className = "col-md-2 mt-3";
 		column.id = `character-${character.id}`;
 		column.innerHTML = `
+
 		<a href="#" id="btn-possAssesin-${character.id}"  >
 			<div class="cardz">		
 				<img src="./characters/${character.name_image}.png" id="imgId-${character.id}" class="rounded"  style="width:100%" >
 				<div class="container">
 					<p class="cardz-title">${character.nombre}</p>
-					
 				</div>
 			</div>
 		</a>
@@ -334,19 +331,22 @@ let paintingWeapons = (arrWeapons) => {
 		// console.log("weapon id----------------------", weapon.id);
 		// console.log("weapon name----------------------", weapon.nombre);
 
-		column.className = "col-md-3  mt-3";
+		column.className = "col-md-2  mt-3";
 		column.id = `weapon-${weapon.id}`;
-		column.innerHTML = `<div class="card card-special"  >
-  	<img src="./weapons/${weapon.name_image}.png" id="imgId-${weapon.id}" class="card-img-top " alt="...">
-  	<div class="card-body">
-    <pclass="card-title">${weapon.nombre}</p>
-    <a href="#" id="btn-poss-weapon-${weapon.id}" class="btn btn-primary">fue esta</a>
-		</div>
-		</div>`;
+		column.innerHTML = `
+ 
+		<a href="#" id="btn-possWeapon-${weapon.id}"  >
+			<div class="cardz"  >
+				<img src="./weapons/${weapon.name_image}.png" id="imgId-${weapon.id}" class="rounded"  style="width:100%" >
+				<div class="container">
+					<p class="cardz-title">${weapon.nombre}</p>
+				</div>
+			</div>
+		</a> 
+		`;
 
 		containerWeapons.append(column);
-		let btnWeapons = document.getElementById(`btn-poss-weapon-${weapon.id}`);
-
+		let btnWeapons = document.getElementById(`btn-possWeapon-${weapon.id}`);
 		btnWeapons.onclick = () => checkWeapons(arrWeapons, weapon.id);
 	});
 };
@@ -358,15 +358,18 @@ let paintingRooms = (arrRooms) => {
 	arrRooms.forEach((rooms) => {
 		let column = document.createElement("div");
 
-		column.className = "col-md-3 mt-3";
+		column.className = "col-md-2 mt-3";
 		column.id = `rooms-${rooms.id}`;
-		column.innerHTML = `<div class="card card-special"  >
-  	<img src="./rooms/${rooms.name_image}.png" id="imgId-${rooms.id}" class="card-img-top " alt="...">
-  	<div class="card-body">
-    <pclass="card-title">${rooms.nombre}</p>
-    <a href="#" id="btn-poss-rooms-${rooms.id}" class="btn btn-primary">fue aquí</a>
-		</div>
-		</div>`;
+		column.innerHTML = `
+		 
+		<a href="#" id="btn-poss-rooms-${rooms.id}"  >
+			<div class="cardz"  >
+				<img src="./rooms/${rooms.name_image}.png" id="imgId-${rooms.id}" class="rounded"  style="width:100%" >
+				<div class="container">
+					<p class="cardz-title">${rooms.nombre}</p>
+				</div>
+			</div>
+		</a> `;
 
 		containerRooms.append(column);
 		let btnRooms = document.getElementById(`btn-poss-rooms-${rooms.id}`);
@@ -407,7 +410,7 @@ let genereMistery = (arrCompleteDied) => {
 };
 
 //Put te mistery and said who died
-let paintMurder = (id_murder) =>
+let paintCase = (id_murder) =>
 	(person_murder.innerHTML = `Mataron a <span> ${suspectsArray[id_murder].nombre} </span> tienes que adivinar quien fue, con que lo mataron y donde lo mato`);
 
 let main = () => {
@@ -423,10 +426,10 @@ let main = () => {
 	generateListRooms(roomsArray);
 
 	//paints suspects, weapons and rooms in the dom
-	paintMurder(arrToPlay[1]);
+	paintCase(arrToPlay[1]);
+	paintingCharacters(arrToPlay[0]);
 	paintingWeapons(weaponsArray);
 	paintingRooms(roomsArray);
-	paintingCharacters(arrToPlay[0]);
 
 	//generates  assasin, person murder, where die and what weapon was use
 	genereMistery(arrToPlay);
