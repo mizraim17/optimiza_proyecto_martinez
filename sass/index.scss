@@ -19,9 +19,9 @@ a:active {
 
 // variables
 
-$gray: #221d21;
-$gray-2: #433d3d;
-$red-2: #8de0a6;
+$gray: #323643;
+$gray-2: #606470;
+$green: #8de0a6;
 $rose: #f27c7c;
 $rose-2: #f56d8f;
 $blue: #6bacbf;
@@ -56,7 +56,7 @@ body {
 .tit-list-suspects,
 .tit-list-weapons {
 	padding-top: 8%;
-	color: $red-2;
+	color: $green;
 	font-size: 20px;
 	font-weight: bold;
 }
@@ -98,7 +98,7 @@ body {
 }
 
 .cardz {
-	background-color: white;
+	background-color: $rose;
 	box-shadow: 0 4px 8px 0 rgba(120, 72, 72, 0.2);
 	transition: 0.3s;
 	width: 80%;
@@ -110,7 +110,7 @@ body {
 .cardz-title {
 	font-weight: bold;
 	text-decoration: none;
-	color: #f77014;
+	color: white;
 	text-align: center;
 }
 

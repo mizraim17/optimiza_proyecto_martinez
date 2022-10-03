@@ -14,13 +14,13 @@ a:active {
   color: white; }
 
 body {
-  background: #221d21; }
+  background: #323643; }
 
 .blur-image {
   filter: blur(11px); }
 
 .colum-list-suspects {
-  background-color: #433d3d;
+  background-color: #606470;
   padding: 2%; }
 
 .base-list, .list-weapons,
@@ -69,7 +69,7 @@ body {
     color: #f27c7c; }
 
 .cardz {
-  background-color: white;
+  background-color: #f27c7c;
   box-shadow: 0 4px 8px 0 rgba(120, 72, 72, 0.2);
   transition: 0.3s;
   width: 80%;
@@ -80,7 +80,7 @@ body {
 .cardz-title {
   font-weight: bold;
   text-decoration: none;
-  color: #f77014;
+  color: white;
   text-align: center; }
 
 .cardz:hover {
