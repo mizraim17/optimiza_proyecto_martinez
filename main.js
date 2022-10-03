@@ -21,7 +21,7 @@ const suspectsArray = [
 const roomsArray = [
 	{ id: 0, nombre: "Recepción", name_image: "recepcion" },
 	{ id: 1, nombre: "Oficina Michael", name_image: "ofi_michael" },
-	{ id: 2, nombre: "Zona de Estacionamiento", name_image: "estacionamiento" },
+	{ id: 2, nombre: "Zona de Parking", name_image: "estacionamiento" },
 	{ id: 3, nombre: "Bodega", name_image: "bodega" },
 	{ id: 4, nombre: "Sala de Juntas", name_image: "juntas" },
 ];
@@ -114,29 +114,12 @@ let generateListRooms = (arrRooms) => {
 
 //Verify who is the killer
 let checkAssasin = (asseMurder, idSuspect) => {
-	console.log("asseMurder---------------->>>>>>>>>>>>>", asseMurder);
-	console.log("idSuspect---------------->>>>>>>>>>>>>", idSuspect);
-
 	let arrWitMurd = [...asseMurder];
-	// const copyArrWitMurd = [...asseMurder];
-
-	// for (element in copyArrWitMurd) {
-	// 	console.log(
-	// 		`despues cut "${copyArrWitMurd[element].id}  ${copyArrWitMurd[element].nombre}`
-	// 	);
-	// }
 
 	id_assasin = localStorage.getItem("id_assasin");
 	console.log("id_assasin", id_assasin);
 
 	let gameWin = 0;
-
-	console.log(
-		"---asesino rela",
-		suspectsArray[id_assasin].nombre,
-		"--- sospechosos",
-		idSuspect
-	);
 
 	if (suspectsArray[id_assasin].id !== idSuspect) {
 		arrWitMurd = arrWitMurd.filter((item) => item.id !== idSuspect);
@@ -221,7 +204,7 @@ let showAssasin = () => {
 
 	containerCharacters.innerHTML = "";
 
-	column.className = "col-md-3 mt-3";
+	column.className = "col-6  col-md-3  mt-3";
 	column.id = `character-${suspectsArray[id_assasin].id}`;
 	column.innerHTML = `
 	<div class="card card-special bg-success text-white"  >
@@ -291,15 +274,12 @@ let showRooms = () => {
 let paintingCharacters = (arrSuspects) => {
 	containerCharacters.innerHTML = "";
 
-	console.log("========>>>", arrSuspects);
-
 	arrSuspects.forEach((character) => {
 		let column = document.createElement("div");
 
-		column.className = "col-md-2 mt-3";
+		column.className = "col-6 col-md-2 mt-3";
 		column.id = `character-${character.id}`;
 		column.innerHTML = `
-
 		<a href="#" id="btn-possAssesin-${character.id}"  >
 			<div class="cardz">		
 				<img src="./characters/${character.name_image}.png" id="imgId-${character.id}" class="rounded"  style="width:100%" >
@@ -323,7 +303,7 @@ let paintingWeapons = (arrWeapons) => {
 	arrWeapons.forEach((weapon) => {
 		let column = document.createElement("div");
 
-		column.className = "col-md-2  mt-3";
+		column.className = "col-6 col-md-2  mt-3";
 		column.id = `weapon-${weapon.id}`;
 		column.innerHTML = `
  
@@ -350,7 +330,7 @@ let paintingRooms = (arrRooms) => {
 	arrRooms.forEach((rooms) => {
 		let column = document.createElement("div");
 
-		column.className = "col-md-2 mt-3";
+		column.className = "col-6 col-md-2 mt-3";
 		column.id = `rooms-${rooms.id}`;
 		column.innerHTML = `
 		 
