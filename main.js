@@ -80,11 +80,12 @@ let initElements = () => {
 };
 
 let generateListSuspects = (arrSuspects) => {
-	console.log("arrSuspects-->", arrSuspects);
+	console.log("arrSuspects falllaaaaaa-->", arrSuspects);
 
 	containerListSuspects.innerHTML = "";
-	list = document.createElement("li");
+
 	arrSuspects.forEach((character) => {
+		list = document.createElement("li");
 		list.innerHTML = `<p > ${character.id}.- ${character.nombre} \n </p> `;
 		containerListSuspects.appendChild(list);
 	});
