@@ -72,18 +72,26 @@ body {
 #name_weapon,
 #name_rooms {
 	font-size: 18px;
-	font-weight: bold;
+	font-weight: 500;
 }
 
 .name_correct {
 	color: #faffa8;
 	padding: 2%;
 	background-color: rgba(240, 240, 240, 0.1);
+
+	span {
+		font-style: italic;
+	}
 }
 
 .name_incorrect {
 	color: $rose-2;
 	padding: 2%;
+
+	span {
+		font-style: italic;
+	}
 }
 
 #person_murder {
@@ -120,4 +128,16 @@ body {
 
 .container {
 	padding: 2px 16px;
+}
+
+.tit-all-characters {
+	color: $rose-2;
+	text-align: center;
+	font-weight: 900;
+	font-size: 42px;
+}
+
+.fa-solid {
+	color: $rose-2 !important;
+	padding-right: 4px;
 }

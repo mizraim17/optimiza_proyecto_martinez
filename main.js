@@ -5,31 +5,31 @@
 let containerCharacters;
 
 const suspectsArray = [
-	{ id: 0, nombre: "Michael Scott", name_image: "michael" },
-	{ id: 1, nombre: "Jim Halpert", name_image: "jim" },
-	{ id: 2, nombre: "Dwight Schrute", name_image: "dwight" },
-	{ id: 3, nombre: "Pam Beesly", name_image: "pam" },
-	{ id: 4, nombre: "Ryan Howard", name_image: "ryan" },
-	{ id: 5, nombre: "Oscar Martinez", name_image: "oscar" },
-	{ id: 6, nombre: "Angela Martin", name_image: "angela" },
-	{ id: 7, nombre: "Andy Bernard", name_image: "andy" },
-	{ id: 8, nombre: "Kevin Malone", name_image: "kevin" },
+	{ id: 0, name: "Michael Scott", name_image: "michael" },
+	{ id: 1, name: "Jim Halpert", name_image: "jim" },
+	{ id: 2, name: "Dwight Schrute", name_image: "dwight" },
+	{ id: 3, name: "Pam Beesly", name_image: "pam" },
+	{ id: 4, name: "Ryan Howard", name_image: "ryan" },
+	{ id: 5, name: "Oscar Martinez", name_image: "oscar" },
+	{ id: 6, name: "Angela Martin", name_image: "angela" },
+	{ id: 7, name: "Andy Bernard", name_image: "andy" },
+	{ id: 8, name: "Kevin Malone", name_image: "kevin" },
 ];
 
 const roomsArray = [
-	{ id: 0, nombre: "Recepción", name_image: "recepcion" },
-	{ id: 1, nombre: "Oficina Michael", name_image: "ofi_michael" },
-	{ id: 2, nombre: "Zona de Parking", name_image: "estacionamiento" },
-	{ id: 3, nombre: "Bodega", name_image: "bodega" },
-	{ id: 4, nombre: "Sala de Juntas", name_image: "juntas" },
+	{ id: 0, name: "Recepción", name_image: "recepcion" },
+	{ id: 1, name: "Oficina Michael", name_image: "ofi_michael" },
+	{ id: 2, name: "Zona de Parking", name_image: "estacionamiento" },
+	{ id: 3, name: "Bodega", name_image: "bodega" },
+	{ id: 4, name: "Sala de Juntas", name_image: "juntas" },
 ];
 
 const weaponsArray = [
-	{ id: 0, nombre: "Olla", name_image: "olla" },
-	{ id: 1, nombre: "Limonada Mexicana", name_image: "limonada" },
-	{ id: 2, nombre: "Pistola", name_image: "pistola" },
-	{ id: 3, nombre: "Soplete", name_image: "soplete" },
-	{ id: 4, nombre: "Engrapadora en gelatina", name_image: "engrapadora" },
+	{ id: 0, name: "Olla", name_image: "olla" },
+	{ id: 1, name: "Limonada Mexicana", name_image: "limonada" },
+	{ id: 2, name: "Pistola", name_image: "pistola" },
+	{ id: 3, name: "Soplete", name_image: "soplete" },
+	{ id: 4, name: "Engrapadora en gelatina", name_image: "engrapadora" },
 ];
 
 //Function generate number random depending of size of array
@@ -38,7 +38,7 @@ let doRandom = (arrSearch) =>
 
 //Generate array without person die because he dont cant be the murder
 let listWithoutMurder = (nameDiedPerson) => {
-	newList = suspectsArray.filter((item) => item.nombre !== nameDiedPerson);
+	newList = suspectsArray.filter((item) => item.name !== nameDiedPerson);
 	return newList;
 };
 
@@ -47,7 +47,7 @@ let listWithoutMurder = (nameDiedPerson) => {
 let genereAssesinMurder = () => {
 	let arrayAssesinDied = [],
 		numDiedPerson = parseInt(doRandom(suspectsArray)),
-		listNoMurdered = listWithoutMurder(suspectsArray[numDiedPerson].nombre);
+		listNoMurdered = listWithoutMurder(suspectsArray[numDiedPerson].name);
 
 	[arrayAssesinDied[0], arrayAssesinDied[1]] = [
 		listNoMurdered,
@@ -77,16 +77,15 @@ let initElements = () => {
 	name_weapon = document.getElementById("name_weapon");
 	name_rooms = document.getElementById("name_rooms");
 	person_murder = document.getElementById("person_murder");
+	container_hearts = document.getElementById("hearts");
 };
 
 let generateListSuspects = (arrSuspects) => {
-	console.log("arrSuspects falllaaaaaa-->", arrSuspects);
-
 	containerListSuspects.innerHTML = "";
 
 	arrSuspects.forEach((character) => {
 		list = document.createElement("li");
-		list.innerHTML = `<p > ${character.id}.- ${character.nombre} \n </p> `;
+		list.innerHTML = `<p > ${character.id}.- ${character.name} \n </p> `;
 		containerListSuspects.appendChild(list);
 	});
 };
@@ -95,7 +94,7 @@ let generateListWeapons = (arrWeapons) => {
 	containerListWeapons.innerHTML = "";
 	arrWeapons.forEach((weapons) => {
 		let list = document.createElement("li");
-		list.innerHTML = `<p class="list-weapons" > ${weapons.id}.- ${weapons.nombre} \n </p> `;
+		list.innerHTML = `<p class="list-weapons" > ${weapons.id}.- ${weapons.name} \n </p> `;
 		containerListWeapons.appendChild(list);
 	});
 };
@@ -106,7 +105,7 @@ let generateListRooms = (arrRooms) => {
 	containerListRooms.innerHTML = "";
 	arrRooms.forEach((rooms) => {
 		let list = document.createElement("li");
-		list.innerHTML = `<p class="list-Rooms" > ${rooms.id}.- ${rooms.nombre} \n </p> `;
+		list.innerHTML = `<p class="list-Rooms" > ${rooms.id}.- ${rooms.name} \n </p> `;
 		containerListRooms.appendChild(list);
 	});
 };
@@ -123,13 +122,23 @@ let checkAssasin = (asseMurder, idSuspect) => {
 	if (suspectsArray[id_assasin].id !== idSuspect) {
 		arrWitMurd = arrWitMurd.filter((item) => item.id !== idSuspect);
 
+		num_hearts--;
+		paintHearts(num_hearts);
 		paintingCharacters(arrWitMurd);
 		generateListSuspects(arrWitMurd);
 
-		name_suspect.innerHTML = `No es el asesino ${suspectsArray[idSuspect].nombre}`;
+		name_suspect.innerHTML = `No es el asesino <span> ${suspectsArray[idSuspect].name} </span>`;
 		name_suspect.classList = "name_incorrect";
+
+		playSound("lose");
+		swatSuspectFail(
+			(suspect = suspectsArray[idSuspect].name),
+			(name_image = suspectsArray[idSuspect].name_image),
+			"error"
+		);
 	} else if (suspectsArray[id_assasin].id == idSuspect) {
-		name_suspect.innerHTML = `Si es el asesino ${suspectsArray[idSuspect].nombre}`;
+		playSound("win");
+		name_suspect.innerHTML = `Si es el asesino <span> ${suspectsArray[idSuspect].name} </span>`;
 		name_suspect.classList = "name_correct";
 		showAssasin();
 	}
@@ -138,13 +147,13 @@ let checkAssasin = (asseMurder, idSuspect) => {
 let checkWeapons = (arrayWeapons, idWeapon) => {
 	console.log("arrya llega ", arrayWeapons, "id de arma", idWeapon);
 
-	console.log("---arma tecleada id", weaponsArray[idWeapon].nombre);
+	console.log("---arma tecleada id", weaponsArray[idWeapon].name);
 
 	const copyArrWeapons = arrayWeapons;
 
 	for (element in copyArrWeapons) {
 		console.log(
-			`despues cut "${copyArrWeapons[element].id}  ${copyArrWeapons[element].nombre}`
+			`despues cut "${copyArrWeapons[element].id}  ${copyArrWeapons[element].name}`
 		);
 	}
 
@@ -158,10 +167,10 @@ let checkWeapons = (arrayWeapons, idWeapon) => {
 		paintingWeapons(arrayWeapons);
 		generateListWeapons(arrayWeapons);
 
-		name_weapon.innerHTML = `No es el arma ${weaponsArray[idWeapon].nombre}`;
+		name_weapon.innerHTML = `No es el arma ${weaponsArray[idWeapon].name}`;
 		name_weapon.classList = "name_incorrect";
 	} else if (weaponsArray[id_weapon].id == idWeapon) {
-		name_weapon.innerHTML = `Si es el arma ${weaponsArray[id_weapon].nombre}`;
+		name_weapon.innerHTML = `Si es el arma ${weaponsArray[id_weapon].name}`;
 		name_weapon.classList = "name_correct";
 
 		showWeapon();
@@ -173,7 +182,7 @@ let checkRooms = (arrayRooms, idRoom) => {
 
 	for (element in copyArrRooms) {
 		console.log(
-			`despues cut "${copyArrRooms[element].id}  ${copyArrRooms[element].nombre}`
+			`despues cut "${copyArrRooms[element].id}  ${copyArrRooms[element].name}`
 		);
 	}
 
@@ -187,10 +196,10 @@ let checkRooms = (arrayRooms, idRoom) => {
 		paintingRooms(arrayRooms);
 		generateListRooms(arrayRooms);
 
-		name_rooms.innerHTML = `No es el lugar la ${roomsArray[idRoom].nombre}`;
+		name_rooms.innerHTML = `No es el lugar la ${roomsArray[idRoom].name}`;
 		name_rooms.classList = "name_incorrect";
 	} else if (roomsArray[id_room].id == idRoom) {
-		name_rooms.innerHTML = `Si es el lugar ${roomsArray[id_room].nombre}`;
+		name_rooms.innerHTML = `Si es el lugar ${roomsArray[id_room].name}`;
 		name_rooms.classList = "name_correct";
 
 		showRooms();
@@ -209,7 +218,7 @@ let showAssasin = () => {
 	<div class="card card-special bg-success text-white"  >
   	<img src="./characters/${suspectsArray[id_assasin].name_image}.png" id="imgId-${suspectsArray[id_assasin].id}" class="card-img-top " alt="...">
   	<div class="card-body">
-    	<pclass="cardz-title">${suspectsArray[id_assasin].nombre}</p>
+    	<pclass="cardz-title">${suspectsArray[id_assasin].name}</p>
     	<a href="#" id="btn-possAssesin-${suspectsArray[id_assasin].id}" class="btn btn-danger text-white">Asesino Encontrado</a>
   	</div>
 	</div>`;
@@ -217,7 +226,7 @@ let showAssasin = () => {
 	containerCharacters.append(column);
 	containerListSuspects.innerHTML = "";
 	let list = document.createElement("li");
-	list.innerHTML = `<p > ${id_assasin}.- ${suspectsArray[id_assasin].nombre} \n </p> `;
+	list.innerHTML = `<p > ${id_assasin}.- ${suspectsArray[id_assasin].name} \n </p> `;
 	containerListSuspects.appendChild(list);
 };
 
@@ -233,7 +242,7 @@ let showWeapon = () => {
 	<div class="card card-special bg-success text-white">
 		<img src="./weapons/${weaponsArray[id_weapon].name_image}.png" id="imgId-${weaponsArray[id_weapon].id}" class="card-img-top " alt="...">
 		<div class="card-body">
-			<p class="card-title">${weaponsArray[id_weapon].nombre}</p>
+			<p class="card-title">${weaponsArray[id_weapon].name}</p>
 			<a href="#" id="btn-poss-weapon-${weaponsArray[id_weapon].id}" class="btn btn-primary">Arma encontrada</a>
 		</div>
 	</div>`;
@@ -242,7 +251,7 @@ let showWeapon = () => {
 
 	containerListWeapons.innerHTML = "";
 	let list = document.createElement("li");
-	list.innerHTML = `<p class="list-weapons" > ${id_weapon}.- ${weaponsArray[id_weapon].nombre} \n </p> `;
+	list.innerHTML = `<p class="list-weapons" > ${id_weapon}.- ${weaponsArray[id_weapon].name} \n </p> `;
 	containerListWeapons.appendChild(list);
 };
 
@@ -258,7 +267,7 @@ let showRooms = () => {
 	<div class="card bg-success">
   	<img src="./rooms/${roomsArray[id_room].name_image}.png" id="imgId-${roomsArray[id_room].id}" class="card-img-top " alt="...">
 	 	<div class="container">
-    	<p class="card-title text-white">${roomsArray[id_room].nombre}</p>  
+    	<p class="card-title text-white">${roomsArray[id_room].name}</p>  
 			<a href="#" id="btn-poss-weapon-${roomsArray[id_room].id}" class="btn btn-primary">Lugar  encontrada</a> 
   	</div>
 	</div>`;
@@ -266,7 +275,7 @@ let showRooms = () => {
 	containerRooms.append(column);
 	containerListRooms.innerHTML = "";
 	list = document.createElement("li");
-	list.innerHTML = `<p class="list-Rooms" > ${id_room}.- ${roomsArray[id_room].nombre} \n </p> `;
+	list.innerHTML = `<p class="list-Rooms" > ${id_room}.- ${roomsArray[id_room].name} \n </p> `;
 	containerListRooms.appendChild(list);
 };
 
@@ -279,16 +288,15 @@ let paintingCharacters = (arrSuspects) => {
 		column.className = "col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 mt-3 ";
 		column.id = `character-${character.id}`;
 		column.innerHTML = `
-	 <span   data-bs-toggle="popover" data-bs-trigger="hover focus"   data-bs-content="El dijo que estaba en la cocina ">   
-		<a href="#" id="btn-possAssesin-${character.id}" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="El dijo que estaba en la cocina " > 
+	  <a href="#" id="btn-possAssesin-${character.id}" " > 
 			<div class="cardz">		
 				<img src="./characters/${character.name_image}.png" id="imgId-${character.id}" class="rounded"  style="width:100%" >
 				<div class="container">			
-					<p class="cardz-title">${character.nombre}</p>
+					<p class="cardz-title">${character.name}</p>
 				</div>
 			</div>		
 		</a>
-		</span>
+	 
 		`;
 
 		containerCharacters.append(column);
@@ -319,7 +327,7 @@ let paintingWeapons = (arrWeapons) => {
 			<div class="cardz"  >
 				<img src="./weapons/${weapon.name_image}.png" id="imgId-${weapon.id}" class="rounded"  style="width:100%" >
 				<div class="container">
-					<p class="cardz-title">${weapon.nombre}</p>
+					<p class="cardz-title">${weapon.name}</p>
 				</div>
 			</div>
 		</a> 
@@ -346,7 +354,7 @@ let paintingRooms = (arrRooms) => {
 			<div class="cardz"  >
 				<img src="./rooms/${rooms.name_image}.png" id="imgId-${rooms.id}" class="rounded"  style="width:100%" >
 				<div class="container">
-					<p class="cardz-title">${rooms.nombre}</p>
+					<p class="cardz-title">${rooms.name}</p>
 				</div>
 			</div>
 		</a> `;
@@ -380,7 +388,44 @@ let genereMistery = (arrayWithoutMurdered, numPersonMurdered) => {
 
 //Put te mistery and said who died
 let paintCase = (id_murder) =>
-	(person_murder.innerHTML = `Mataron a <span> ${suspectsArray[id_murder].nombre} </span> tienes que adivinar quién fue, con qué lo mataron y donde lo mató`);
+	(person_murder.innerHTML = `Mataron a <span> ${suspectsArray[id_murder].name} </span> tienes que adivinar quién fue, con qué lo mataron y donde lo mató`);
+
+//painting hearts
+
+let paintHearts = (num_hearts) => {
+	container_hearts.innerHTML = "";
+	for (i = 1; i <= num_hearts; i++) {
+		heart_ele = document.createElement("span");
+
+		heart_ele.innerHTML = `<i class="fa-solid fa-heart"></i>`;
+		container_hearts.append(heart_ele);
+	}
+};
+
+let playSound = (win_lose) => {
+	let sound = new Audio();
+
+	win_lose == "lose"
+		? (sound.src = "./sounds/risa.mp3")
+		: (sound.src = "./sounds/aplauso.mp3");
+
+	sound.play();
+};
+
+let swatSuspectFail = (suspect, suspect_name) => {
+	Swal.fire({
+		toast: true,
+
+		imageUrl: `./characters/${suspect_name}_cross.png`,
+
+		title: `Fallaste, el asesino no es ${suspect}`,
+		animation: false,
+		position: "center",
+		showConfirmButton: false,
+		timer: 2000,
+		timerProgressBar: true,
+	});
+};
 
 let main = () => {
 	//Stores elements in variables
@@ -402,6 +447,10 @@ let main = () => {
 	paintingCharacters(arrayWithoutMurdered);
 	paintingWeapons(weaponsArray);
 	paintingRooms(roomsArray);
+
+	num_hearts = 5;
+
+	paintHearts(num_hearts);
 
 	//generates  assasin, person murder, where die and what weapon was use
 	genereMistery(arrayWithoutMurdered, numPersonMurdered);
