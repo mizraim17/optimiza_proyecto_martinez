@@ -4,8 +4,6 @@
 
 let containerCharacters;
 
-let selectUser = 0;
-
 const suspectsArray = [
 	{ id: 0, nombre: "Michael Scott", name_image: "michael" },
 	{ id: 1, nombre: "Jim Halpert", name_image: "jim" },
@@ -28,7 +26,7 @@ const roomsArray = [
 
 const weaponsArray = [
 	{ id: 0, nombre: "Olla", name_image: "olla" },
-	{ id: 1, nombre: "Limonada", name_image: "limonada" },
+	{ id: 1, nombre: "Limonada Mexicana", name_image: "limonada" },
 	{ id: 2, nombre: "Pistola", name_image: "pistola" },
 	{ id: 3, nombre: "Soplete", name_image: "soplete" },
 	{ id: 4, nombre: "Engrapadora en gelatina", name_image: "engrapadora" },
@@ -277,22 +275,31 @@ let paintingCharacters = (arrSuspects) => {
 	arrSuspects.forEach((character) => {
 		let column = document.createElement("div");
 
-		column.className = "col-6 col-md-2 mt-3";
+		column.className = "col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 mt-3 ";
 		column.id = `character-${character.id}`;
 		column.innerHTML = `
-		<a href="#" id="btn-possAssesin-${character.id}"  >
+	 <span   data-bs-toggle="popover" data-bs-trigger="hover focus"   data-bs-content="El dijo que estaba en la cocina ">   
+		<a href="#" id="btn-possAssesin-${character.id}" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="El dijo que estaba en la cocina " > 
 			<div class="cardz">		
 				<img src="./characters/${character.name_image}.png" id="imgId-${character.id}" class="rounded"  style="width:100%" >
-				<div class="container">
+				<div class="container">			
 					<p class="cardz-title">${character.nombre}</p>
 				</div>
-			</div>
+			</div>		
 		</a>
+		</span>
 		`;
 
 		containerCharacters.append(column);
 		let btnAccuse = document.getElementById(`btn-possAssesin-${character.id}`);
 		btnAccuse.onclick = () => checkAssasin(arrSuspects, character.id);
+
+		const popoverTriggerList = document.querySelectorAll(
+			'[data-bs-toggle="popover"]'
+		);
+		const popoverList = [...popoverTriggerList].map(
+			(popoverTriggerEl) => new bootstrap.Popover(popoverTriggerEl)
+		);
 	});
 };
 
@@ -303,7 +310,7 @@ let paintingWeapons = (arrWeapons) => {
 	arrWeapons.forEach((weapon) => {
 		let column = document.createElement("div");
 
-		column.className = "col-6 col-md-2  mt-3";
+		column.className = "col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 mt-3";
 		column.id = `weapon-${weapon.id}`;
 		column.innerHTML = `
  
@@ -330,7 +337,7 @@ let paintingRooms = (arrRooms) => {
 	arrRooms.forEach((rooms) => {
 		let column = document.createElement("div");
 
-		column.className = "col-6 col-md-2 mt-3";
+		column.className = "col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 mt-3";
 		column.id = `rooms-${rooms.id}`;
 		column.innerHTML = `
 		 
