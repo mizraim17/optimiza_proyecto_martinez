@@ -65,6 +65,7 @@ let oportunities = [false, false, false];
 //initialize all variables
 
 let initElements = () => {
+	console.log("entro al init");
 	containerCharacters = document.getElementById("containerCharacters");
 	containerListSuspects = document.getElementById("containerListSuspects");
 	containerListWeapons = document.getElementById("containerListWeapons");
@@ -79,6 +80,8 @@ let initElements = () => {
 	person_murder = document.getElementById("person_murder");
 	container_hearts = document.getElementById("hearts");
 	localStorage.setItem("num_hearts", 2);
+
+	console.log("num_hearts init", localStorage.getItem("num_hearts"));
 };
 
 let crossListSuspect = (idSuspect) => {
@@ -137,15 +140,16 @@ let generateListRooms = (arrRooms) => {
 //Verify who is the killer
 let checkAssasin = (asseMurder, idSuspect) => {
 	let arrWitMurd = [...asseMurder];
+	console.log("aqi");
 
 	num_hearts = parseInt(localStorage.getItem("num_hearts"));
 	id_assasin_mistery = parseInt(localStorage.getItem("id_assasin"));
 
 	console.log("id_assasin real", id_assasin_mistery);
 	console.log("id_assasin", idSuspect);
-	console.log("num_hearts", num_hearts);
+	console.log("num_hearts checkAssasin", num_hearts);
 
-	if (num_hearts > 0) {
+	if (num_hearts != 0) {
 		if (id_assasin_mistery !== idSuspect) {
 			arrWitMurd = arrWitMurd.filter((item) => item.id !== idSuspect);
 
@@ -177,38 +181,42 @@ let checkAssasin = (asseMurder, idSuspect) => {
 			name_suspect.classList = "name_correct";
 			showAssasin();
 		}
-	} else {
+	} else if ((num_hearts = 0)) {
 		showLose(id_assasin_mistery);
 	}
 };
 
-let showLose = (id_assasin) => {
-	localStorage.setItem("num_hearts", 5);
-
-	Swal.fire({
-		toast: true,
-		imageUrl: `./characters/${suspectsArray[id_assasin].name_image}.png`,
-		title: `Perdiste el asesino era ${suspectsArray[id_assasin].name}`,
-		position: "center",
-		showConfirmButton: false,
-		timer: 3500,
-		timerProgressBar: true,
-	});
-
-	console.log("coraqzone", localStorage.getItem("num_hearts"));
-
+let rebootGame = () => {
+	console.log("entor al rebootGame");
+	localStorage.clear();
 	main();
 };
 
-let showLoseWeapon = (idWeapon) => {
-	localStorage.setItem("num_hearts", 5);
+let showLose = (id_assasin) => {
+	Swal.fire({
+		imageUrl: `./characters/${suspectsArray[id_assasin].name_image}.png`,
+		title: `Perdiste el asesino era ${suspectsArray[id_assasin].name}`,
+		position: "center",
+		showCancelButton: true,
+		confirmButtonText: "Jugar nuevamente",
+	}).then((result) => {
+		if (result.isConfirmed) {
+			console.log("entor al sweet");
+			rebootGame();
+		} else if (result.isDenied) {
+			Swal.fire("Adios", "", "error");
+		}
+	});
 
+	console.log("corazone", localStorage.getItem("num_hearts"));
+};
+
+let showLoseWeapon = (idWeapon) => {
 	Swal.fire({
 		imageUrl: `./weapons/${weaponsArray[idWeapon].name_image}.png`,
 		title: `Perdiste el arma era la ${weaponsArray[idWeapon].name}`,
 		position: "center",
 		showConfirmButton: true,
-
 		timerProgressBar: true,
 	});
 
@@ -370,6 +378,9 @@ let showRooms = () => {
 };
 
 let paintingCharacters = (arrSuspects) => {
+	id_assasin_mistery = parseInt(localStorage.getItem("id_assasin"));
+	num_hearts = parseInt(localStorage.getItem("num_hearts"));
+
 	containerCharacters.innerHTML = "";
 
 	arrSuspects.forEach((character) => {
@@ -392,6 +403,8 @@ let paintingCharacters = (arrSuspects) => {
 		let btnAccuse = document.getElementById(`btn-possAssesin-${character.id}`);
 		btnAccuse.onclick = () => checkAssasin(arrSuspects, character.id);
 	});
+
+	console.log("	num_hearts en paimngitnf", num_hearts);
 };
 
 let paintingWeapons = (arrWeapons) => {
@@ -486,6 +499,17 @@ let paintHearts = (num_hearts) => {
 	}
 };
 
+let peticiona = () => {
+	axios
+		.get("https://6244e0467701ec8f724a5a7f.mockapi.io/api/productos")
+		.then((response) => {
+			console.log("response", response);
+		})
+		.catch((error) => {
+			console.log("error", error);
+		});
+};
+
 // Play sound win o lose
 let playSound = (win_lose) => {
 	let sound = new Audio();
@@ -507,6 +531,10 @@ let swatSuspectFail = (suspect, suspect_name) => {
 		timer: 1500,
 		timerProgressBar: true,
 	});
+
+	num_hearts == 0
+		? showLose(id_assasin_mistery)
+		: console.log(" no es 0--------------");
 };
 
 let swatWeaponsFail = (weapon, weapon_name) => {
@@ -528,8 +556,8 @@ let main = () => {
 	//Generate name person murder and array without person murdered
 	[arrayWithoutMurdered, numPersonMurdered] = genereAssesinMurder();
 
-	// console.log("arrToPlay[0]", arrayWithoutMurdered);
-	// console.log("arrToPlay[1]", numPersonMurdered);
+	console.log("arrToPlay[0]", arrayWithoutMurdered);
+	console.log("arrToPlay[1]", numPersonMurdered);
 
 	//Generete suspects, weapons and rooms
 	generateListSuspects(arrayWithoutMurdered);
@@ -542,8 +570,6 @@ let main = () => {
 	paintingWeapons(weaponsArray);
 	paintingRooms(roomsArray);
 
-	num_hearts = 5;
-
 	paintHearts(num_hearts);
 
 	//generates  assasin, person murder, where die and what weapon was use
@@ -551,3 +577,5 @@ let main = () => {
 };
 
 main();
+
+peticiona();
