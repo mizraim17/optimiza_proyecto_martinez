@@ -84,7 +84,7 @@ let initElements = () => {
 let crossListSuspect = (idSuspect) => {
 	// console.log("idSuspect--------->", idSuspect);
 	id_suspect = idSuspect;
-	suspect_list = document.getElementById(`${id_suspect}`);
+	suspect_list = document.getElementById(`list-suspect-${id_suspect}`);
 	console.log("suspect_list", suspect_list);
 	suspect_list.classList = "cross-text";
 };
@@ -139,10 +139,14 @@ let checkAssasin = (asseMurder, idSuspect) => {
 	let arrWitMurd = [...asseMurder];
 
 	num_hearts = parseInt(localStorage.getItem("num_hearts"));
-	id_assasin = localStorage.getItem("id_assasin");
+	id_assasin_mistery = parseInt(localStorage.getItem("id_assasin"));
 
-	if (num_hearts != 0) {
-		if (suspectsArray[id_assasin].id !== idSuspect) {
+	console.log("id_assasin real", id_assasin_mistery);
+	console.log("id_assasin", idSuspect);
+	console.log("num_hearts", num_hearts);
+
+	if (num_hearts > 0) {
+		if (id_assasin_mistery !== idSuspect) {
 			arrWitMurd = arrWitMurd.filter((item) => item.id !== idSuspect);
 
 			// console.log("idSuspect======>>>>", arrWitMurd);
@@ -158,20 +162,23 @@ let checkAssasin = (asseMurder, idSuspect) => {
 			name_suspect.innerHTML = `No es el asesino <span> ${suspectsArray[idSuspect].name} </span>`;
 			name_suspect.classList = "name_incorrect";
 
-			// playSound("lose");
+			playSound("lose");
 			swatSuspectFail(
 				(suspect = suspectsArray[idSuspect].name),
 				(name_image = suspectsArray[idSuspect].name_image),
 				"error"
 			);
-		} else if (suspectsArray[id_assasin].id == idSuspect) {
-			// playSound("win");
+		} else if (id_assasin_mistery === idSuspect) {
+			playSound("win");
+
+			console.log("=========son iguales==0");
+
 			name_suspect.innerHTML = `Si es el asesino <span> ${suspectsArray[idSuspect].name} </span>`;
 			name_suspect.classList = "name_correct";
 			showAssasin();
 		}
 	} else {
-		showLose(id_assasin);
+		showLose(id_assasin_mistery);
 	}
 };
 
@@ -217,13 +224,13 @@ let checkWeapons = (arrayWeapons, idWeapon) => {
 	let copyArrWeapons = [...arrayWeapons];
 
 	num_hearts = parseInt(localStorage.getItem("num_hearts"));
-	id_weapon = parseInt(localStorage.getItem("id_weapon"));
+	id_weapon_mistery = parseInt(localStorage.getItem("id_weapon"));
 
-	console.log("id_weapon si es", id_weapon);
+	console.log("id_weapon real", id_weapon_mistery);
 	console.log("id_weapon misterio", idWeapon);
 
 	if (num_hearts != 0) {
-		if (weaponsArray[id_weapon].id !== idWeapon) {
+		if (id_weapon_mistery !== idWeapon) {
 			copyArrWeapons = copyArrWeapons.filter((item) => item.id !== idWeapon);
 
 			num_hearts--;
@@ -239,9 +246,17 @@ let checkWeapons = (arrayWeapons, idWeapon) => {
 				"error"
 			);
 
-			name_weapon.innerHTML = `No es el arma ${weaponsArray[idWeapon].name}`;
+			// function pintarUsuario() {
+			// 	let user = localStorage.getItem("nombreUsuario");
+			// 	nombreUsuario.innerHTML = ` Bienvenido ${user}`;
+			// 	nombreUsuario.classList.add("usuario-registrado");
+			// }
+
+			name_weapon.innerHTML = `No es el arma ${weaponsArray[id_weapon_mistery].name}`;
 			name_weapon.classList = "name_incorrect";
-		} else if (weaponsArray[id_weapon].id == idWeapon) {
+		} else if (id_weapon_mistery == id_weapon_mistery) {
+			console.log("es igual");
+
 			name_weapon.innerHTML = `Si es el arma ${weaponsArray[id_weapon].name}`;
 			name_weapon.classList = "name_correct";
 
@@ -471,16 +486,16 @@ let paintHearts = (num_hearts) => {
 	}
 };
 
-//Play sound win o lose
-// let playSound = (win_lose) => {
-// 	let sound = new Audio();
+// Play sound win o lose
+let playSound = (win_lose) => {
+	let sound = new Audio();
 
-// 	win_lose == "lose"
-// 		? (sound.src = "./sounds/risa.mp3")
-// 		: (sound.src = "./sounds/aplauso.mp3");
+	win_lose == "lose"
+		? (sound.src = "./sounds/risa.mp3")
+		: (sound.src = "./sounds/aplauso.mp3");
 
-// 	sound.play();
-// };
+	sound.play();
+};
 
 let swatSuspectFail = (suspect, suspect_name) => {
 	Swal.fire({
