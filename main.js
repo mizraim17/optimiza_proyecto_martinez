@@ -224,9 +224,7 @@ let showLoseWeapon = (idWeapon) => {
 let checkWeapons = (arrayWeapons, idWeapon) => {
 	// console.log("array llega ", arrayWeapons, "id de arma", idWeapon);
 	// console.log("---arma tecleada id", weaponsArray[idWeapon].name);
-
 	let copyArrWeapons = [...arrayWeapons];
-
 	num_hearts = parseInt(localStorage.getItem("num_hearts"));
 	id_weapon_mistery = parseInt(localStorage.getItem("id_weapon"));
 
@@ -251,39 +249,34 @@ let checkWeapons = (arrayWeapons, idWeapon) => {
 			showWeapon();
 		}
 	} else if (num_hearts == 0) {
-		alert("alo");
-
 		showLoseWeapon(id_weapon_mistery);
 	}
 	console.log(" num_hearts en check es", num_hearts);
 };
 
-let checkRooms = (arrayRooms, idRoom) => {
-	const copyArrRooms = arrayRooms;
+let checkRooms = (arrayRooms, idRoomPlayer) => {
+	let copyArrRooms = [...arrayRooms];
+	num_hearts = parseInt(localStorage.getItem("num_hearts"));
+	id_room_real = localStorage.getItem("id_room");
 
-	for (element in copyArrRooms) {
-		console.log(
-			`despues cut "${copyArrRooms[element].id}  ${copyArrRooms[element].name}`
-		);
-	}
+	console.log("id_room real", id_room_real);
+	console.log("id_room intento", idRoomPlayer);
 
-	id_room = localStorage.getItem("id_room");
+	if (num_hearts != 0) {
+		if (roomsArray[id_room].id !== idRoomPlayer) {
+			arrayRooms = arrayRooms.filter((item) => item.id !== idRoomPlayer);
 
-	let gameWin = 0;
+			num_hearts--;
+			localStorage.setItem("num_hearts", num_hearts);
 
-	if (roomsArray[id_room].id !== idRoom) {
-		arrayRooms = arrayRooms.filter((item) => item.id !== idRoom);
-
-		paintingRooms(arrayRooms);
-		generateListRooms(arrayRooms);
-
-		name_rooms.innerHTML = `No es el lugar la ${roomsArray[idRoom].name}`;
-		name_rooms.classList = "name_incorrect";
-	} else if (roomsArray[id_room].id == idRoom) {
-		name_rooms.innerHTML = `Si es el lugar ${roomsArray[id_room].name}`;
-		name_rooms.classList = "name_correct";
-
-		showRooms();
+			paintingRooms(arrayRooms);
+			generateListRooms(arrayRooms);
+			crossListWeapon(idRoomPlayer);
+			playSound("lose");
+			swatWeaponsFail(weaponsArray[idWeapon], "error");
+		} else if (roomsArray[id_room].id == idRoomPlayer) {
+			showRooms(id_room_real);
+		}
 	}
 };
 
@@ -478,17 +471,6 @@ let paintHearts = (num_hearts) => {
 	}
 };
 
-let peticiona = () => {
-	axios
-		.get("https://6244e0467701ec8f724a5a7f.mockapi.io/api/productos")
-		.then((response) => {
-			// console.log("response", response);
-		})
-		.catch((error) => {
-			console.log("error", error);
-		});
-};
-
 // Play sound win o lose
 let playSound = (win_lose) => {
 	let sound = new Audio();
@@ -564,5 +546,3 @@ let main = () => {
 };
 
 main();
-
-peticiona();
