@@ -65,7 +65,6 @@ let oportunities = [false, false, false];
 //initialize all variables
 
 let initElements = () => {
-	console.log("entro al init");
 	containerCharacters = document.getElementById("containerCharacters");
 	containerListSuspects = document.getElementById("containerListSuspects");
 	containerListWeapons = document.getElementById("containerListWeapons");
@@ -96,7 +95,7 @@ let crossListWeapon = (idWeapon) => {
 	// console.log("idWeapon--------->", idWeapon);
 	id_weapon = idWeapon;
 	suspect_list = document.getElementById(`list-weapons-${id_weapon}`);
-	console.log("weapon_list", suspect_list);
+	// console.log("weapon_list", suspect_list);
 	suspect_list.classList = "cross-text";
 };
 
@@ -140,7 +139,6 @@ let generateListRooms = (arrRooms) => {
 //Verify who is the killer
 let checkAssasin = (asseMurder, idSuspect) => {
 	let arrWitMurd = [...asseMurder];
-	console.log("aqi");
 
 	num_hearts = parseInt(localStorage.getItem("num_hearts"));
 	id_assasin_mistery = parseInt(localStorage.getItem("id_assasin"));
@@ -153,18 +151,12 @@ let checkAssasin = (asseMurder, idSuspect) => {
 		if (id_assasin_mistery !== idSuspect) {
 			arrWitMurd = arrWitMurd.filter((item) => item.id !== idSuspect);
 
-			// console.log("idSuspect======>>>>", arrWitMurd);
-
 			num_hearts--;
-
 			localStorage.setItem("num_hearts", num_hearts);
 
 			paintHearts(num_hearts);
 			paintingCharacters(arrWitMurd);
 			crossListSuspect(idSuspect);
-
-			name_suspect.innerHTML = `No es el asesino <span> ${suspectsArray[idSuspect].name} </span>`;
-			name_suspect.classList = "name_incorrect";
 
 			playSound("lose");
 			swatSuspectFail(
@@ -175,13 +167,9 @@ let checkAssasin = (asseMurder, idSuspect) => {
 		} else if (id_assasin_mistery === idSuspect) {
 			playSound("win");
 
-			console.log("=========son iguales==0");
-
-			name_suspect.innerHTML = `Si es el asesino <span> ${suspectsArray[idSuspect].name} </span>`;
-			name_suspect.classList = "name_correct";
 			showAssasin();
 		}
-	} else if ((num_hearts = 0)) {
+	} else if (num_hearts == 0) {
 		showLose(id_assasin_mistery);
 	}
 };
@@ -212,17 +200,25 @@ let showLose = (id_assasin) => {
 };
 
 let showLoseWeapon = (idWeapon) => {
+	id_weapon_mistery = parseInt(localStorage.getItem("id_weapon"));
+
+	console.log("idWeapon en showlose", idWeapon);
+	console.log("id_weapon_mistery en showlose ", id_weapon_mistery);
+
 	Swal.fire({
 		imageUrl: `./weapons/${weaponsArray[idWeapon].name_image}.png`,
 		title: `Perdiste el arma era la ${weaponsArray[idWeapon].name}`,
 		position: "center",
-		showConfirmButton: true,
-		timerProgressBar: true,
+		showCancelButton: true,
+		confirmButtonText: "Jugar nuevamente",
+	}).then((result) => {
+		if (result.isConfirmed) {
+			console.log("entor al sweet");
+			rebootGame();
+		} else if (result.isDenied) {
+			Swal.fire("Adios", "", "error");
+		}
 	});
-
-	console.log("coraqzone", localStorage.getItem("num_hearts"));
-
-	main();
 };
 
 let checkWeapons = (arrayWeapons, idWeapon) => {
@@ -235,7 +231,7 @@ let checkWeapons = (arrayWeapons, idWeapon) => {
 	id_weapon_mistery = parseInt(localStorage.getItem("id_weapon"));
 
 	console.log("id_weapon real", id_weapon_mistery);
-	console.log("id_weapon misterio", idWeapon);
+	console.log("id_weapon intento", idWeapon);
 
 	if (num_hearts != 0) {
 		if (id_weapon_mistery !== idWeapon) {
@@ -248,31 +244,18 @@ let checkWeapons = (arrayWeapons, idWeapon) => {
 			paintingWeapons(copyArrWeapons);
 			crossListWeapon(idWeapon);
 
-			swatWeaponsFail(
-				(suspect = weaponsArray[idWeapon].name),
-				(name_image = weaponsArray[idWeapon].name_image),
-				"error"
-			);
-
-			// function pintarUsuario() {
-			// 	let user = localStorage.getItem("nombreUsuario");
-			// 	nombreUsuario.innerHTML = ` Bienvenido ${user}`;
-			// 	nombreUsuario.classList.add("usuario-registrado");
-			// }
-
-			name_weapon.innerHTML = `No es el arma ${weaponsArray[id_weapon_mistery].name}`;
-			name_weapon.classList = "name_incorrect";
-		} else if (id_weapon_mistery == id_weapon_mistery) {
-			console.log("es igual");
-
-			name_weapon.innerHTML = `Si es el arma ${weaponsArray[id_weapon].name}`;
-			name_weapon.classList = "name_correct";
-
+			playSound("lose");
+			swatWeaponsFail(weaponsArray[idWeapon], "error");
+		} else if (id_weapon_mistery == idWeapon) {
+			// playSound("win");
 			showWeapon();
 		}
-	} else {
-		showLoseWeapon(idWeapon);
+	} else if (num_hearts == 0) {
+		alert("alo");
+
+		showLoseWeapon(id_weapon_mistery);
 	}
+	console.log(" num_hearts en check es", num_hearts);
 };
 
 let checkRooms = (arrayRooms, idRoom) => {
@@ -346,7 +329,6 @@ let showWeapon = () => {
 	</div>`;
 
 	containerWeapons.append(column);
-
 	containerListWeapons.innerHTML = "";
 	let list = document.createElement("li");
 	list.innerHTML = `<p class="list-weapons" > ${id_weapon}.- ${weaponsArray[id_weapon].name} \n </p> `;
@@ -378,10 +360,8 @@ let showRooms = () => {
 };
 
 let paintingCharacters = (arrSuspects) => {
-	id_assasin_mistery = parseInt(localStorage.getItem("id_assasin"));
-	num_hearts = parseInt(localStorage.getItem("num_hearts"));
-
 	containerCharacters.innerHTML = "";
+	num_hearts = parseInt(localStorage.getItem("num_hearts"));
 
 	arrSuspects.forEach((character) => {
 		let column = document.createElement("div");
@@ -404,12 +384,11 @@ let paintingCharacters = (arrSuspects) => {
 		btnAccuse.onclick = () => checkAssasin(arrSuspects, character.id);
 	});
 
-	console.log("	num_hearts en paimngitnf", num_hearts);
+	console.log("	num_hearts en painting", num_hearts);
 };
 
 let paintingWeapons = (arrWeapons) => {
 	containerWeapons.innerHTML = "";
-	let id_weapon = 0;
 
 	arrWeapons.forEach((weapon) => {
 		let column = document.createElement("div");
@@ -419,7 +398,7 @@ let paintingWeapons = (arrWeapons) => {
 		column.innerHTML = `
  
 		<a href="#" id="btn-possWeapon-${weapon.id}"  >
-			<div class="cardz"  >
+			<div class="cardz-weapons"  >
 				<img src="./weapons/${weapon.name_image}.png" id="imgId-${weapon.id}" class="rounded"  style="width:100%" >
 				<div class="container">
 					<p class="cardz-title">${weapon.name}</p>
@@ -446,7 +425,7 @@ let paintingRooms = (arrRooms) => {
 		column.innerHTML = `
 		 
 		<a href="#" id="btn-poss-rooms-${rooms.id}"  >
-			<div class="cardz"  >
+			<div class="cardz-rooms"  >
 				<img src="./rooms/${rooms.name_image}.png" id="imgId-${rooms.id}" class="rounded"  style="width:100%" >
 				<div class="container">
 					<p class="cardz-title">${rooms.name}</p>
@@ -503,7 +482,7 @@ let peticiona = () => {
 	axios
 		.get("https://6244e0467701ec8f724a5a7f.mockapi.io/api/productos")
 		.then((response) => {
-			console.log("response", response);
+			// console.log("response", response);
 		})
 		.catch((error) => {
 			console.log("error", error);
@@ -515,8 +494,8 @@ let playSound = (win_lose) => {
 	let sound = new Audio();
 
 	win_lose == "lose"
-		? (sound.src = "./sounds/risa.mp3")
-		: (sound.src = "./sounds/aplauso.mp3");
+		? (sound.src = "./sounds/risaZ.mp3")
+		: (sound.src = "./sounds/aplausoZ.mp3");
 
 	sound.play();
 };
@@ -532,21 +511,29 @@ let swatSuspectFail = (suspect, suspect_name) => {
 		timerProgressBar: true,
 	});
 
+	console.log("de donde diablo", id_assasin_mistery);
 	num_hearts == 0
 		? showLose(id_assasin_mistery)
 		: console.log(" no es 0--------------");
 };
 
-let swatWeaponsFail = (weapon, weapon_name) => {
+let swatWeaponsFail = (weaponsArray) => {
+	let { id, name, name_image } = weaponsArray;
+	id_weapon_mistery = parseInt(localStorage.getItem("id_weapon"));
+
 	Swal.fire({
 		toast: true,
-		imageUrl: `./weapons/${weapon_name}_cross.png`,
-		title: `Fallaste, el armas no es la ${weapon}`,
+		imageUrl: `./weapons/${name_image}_cross.png`,
+		title: `Fallaste, el armas no es la ${name}`,
 		position: "center",
 		showConfirmButton: false,
 		timer: 1500,
 		timerProgressBar: true,
 	});
+
+	num_hearts == 0
+		? showLoseWeapon(id_weapon_mistery)
+		: console.log(" aun tiene corazones");
 };
 
 let main = () => {
@@ -556,8 +543,8 @@ let main = () => {
 	//Generate name person murder and array without person murdered
 	[arrayWithoutMurdered, numPersonMurdered] = genereAssesinMurder();
 
-	console.log("arrToPlay[0]", arrayWithoutMurdered);
-	console.log("arrToPlay[1]", numPersonMurdered);
+	// console.log("arrToPlay[0]", arrayWithoutMurdered);
+	// console.log("arrToPlay[1]", numPersonMurdered);
 
 	//Generete suspects, weapons and rooms
 	generateListSuspects(arrayWithoutMurdered);

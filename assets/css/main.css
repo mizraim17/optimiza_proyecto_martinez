@@ -72,7 +72,7 @@ body {
   #person_murder span {
     color: #f27c7c; }
 
-.cardz {
+.cardz, .cardz-weapons, .cardz-rooms {
   background-color: #f27c7c;
   box-shadow: 0 4px 8px 0 rgba(120, 72, 72, 0.2);
   transition: 0.3s;
@@ -81,13 +81,19 @@ body {
   height: 244px;
   width: 139px; }
 
+.cardz-weapons {
+  background-color: #6bacbf; }
+
+.cardz-rooms {
+  background-color: #f56d8f; }
+
 .cardz-title {
   font-weight: bold;
   text-decoration: none;
   color: white;
   text-align: center; }
 
-.cardz:hover {
+.cardz:hover, .cardz-weapons:hover, .cardz-rooms:hover {
   box-shadow: 0 8px 16px 0 rgba(255, 255, 255, 0.75); }
 
 .container {

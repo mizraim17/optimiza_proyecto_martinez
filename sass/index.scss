@@ -115,6 +115,16 @@ body {
 	width: 139px;
 }
 
+.cardz-weapons {
+	@extend .cardz;
+	background-color: $blue;
+}
+
+.cardz-rooms {
+	@extend .cardz;
+	background-color: $rose-2;
+}
+
 .cardz-title {
 	font-weight: bold;
 	text-decoration: none;
