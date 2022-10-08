@@ -263,7 +263,7 @@ let checkRooms = (arrayRooms, idRoomPlayer) => {
 	console.log("id_room intento", idRoomPlayer);
 
 	if (num_hearts != 0) {
-		if (roomsArray[id_room].id !== idRoomPlayer) {
+		if (roomsArray[id_room_real].id !== idRoomPlayer) {
 			arrayRooms = arrayRooms.filter((item) => item.id !== idRoomPlayer);
 
 			num_hearts--;
@@ -273,8 +273,8 @@ let checkRooms = (arrayRooms, idRoomPlayer) => {
 			generateListRooms(arrayRooms);
 			crossListWeapon(idRoomPlayer);
 			playSound("lose");
-			swatWeaponsFail(weaponsArray[idWeapon], "error");
-		} else if (roomsArray[id_room].id == idRoomPlayer) {
+			swatRoomFail(roomsArray[idRoomPlayer], "error");
+		} else if (roomsArray[id_room_real].id == idRoomPlayer) {
 			showRooms(id_room_real);
 		}
 	}
@@ -515,6 +515,25 @@ let swatWeaponsFail = (weaponsArray) => {
 
 	num_hearts == 0
 		? showLoseWeapon(id_weapon_mistery)
+		: console.log(" aun tiene corazones");
+};
+
+let swatRoomFail = (roomsArray) => {
+	let { id, name, name_image } = roomsArray;
+	id_rooms_mistery = parseInt(localStorage.getItem("id_rooms"));
+
+	Swal.fire({
+		toast: true,
+		imageUrl: `./rooms/${name_image}_cross.png`,
+		title: `Fallaste, el armas no es la ${name}`,
+		position: "center",
+		showConfirmButton: false,
+		timer: 1500,
+		timerProgressBar: true,
+	});
+
+	num_hearts == 0
+		? showLoseWeapon(id_rooms_mistery)
 		: console.log(" aun tiene corazones");
 };
 
