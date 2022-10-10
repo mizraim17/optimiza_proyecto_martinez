@@ -164,13 +164,19 @@ body {
 }
 
 .swa-text {
-	font-size: 24px;
+	font-size: 22px;
 	font-weight: normal;
 	color: #f56d8f;
 
 	span {
+		color: gold;
+		font-size: 24px;
 		font-style: italic;
 		font-weight: bold;
+	}
+
+	span:nth-child(1) {
+		color: tomato;
 	}
 }
 
@@ -182,5 +188,9 @@ body {
 		font-weight: 24px;
 		color: tomato;
 		font-weight: bold;
+
+		:nth-child(2) {
+			color: gold;
+		}
 	}
 }

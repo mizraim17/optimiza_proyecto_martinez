@@ -118,12 +118,16 @@ body {
   color: yellow; }
 
 .swa-text {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: normal;
   color: #f56d8f; }
   .swa-text span {
+    color: gold;
+    font-size: 24px;
     font-style: italic;
     font-weight: bold; }
+  .swa-text span:nth-child(1) {
+    color: tomato; }
 
 .txt-fail {
   font-size: 22px;
@@ -133,3 +137,5 @@ body {
     font-weight: 24px;
     color: tomato;
     font-weight: bold; }
+    .txt-fail span :nth-child(2) {
+      color: gold; }

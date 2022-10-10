@@ -186,7 +186,7 @@ let showLoseAssasin = (id_assasin) => {
 
 	Swal.fire({
 		imageUrl: `./characters/${suspectsArray[id_assasin].name_image}.png`,
-		html: `<p class="swa-text">Perdiste el asesino era <span> ${suspectsArray[id_assasin].name} </span> <br> tu puntajes fue de <b> ${score} </b> <p>`,
+		html: `<p class="swa-text">Perdiste el asesino era <span> ${suspectsArray[id_assasin].name} </span> <br> tu puntajes fue de <span> ${score} </span> <p>`,
 		position: "center",
 		showCancelButton: true,
 		confirmButtonText: "Jugar nuevamente",
