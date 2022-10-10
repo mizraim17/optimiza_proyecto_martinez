@@ -82,7 +82,7 @@ let initElements = () => {
 	localStorage.setItem("num_hearts", 2);
 	localStorage.setItem("score", 1200);
 
-	console.log("num_hearts init", localStorage.getItem("num_hearts"));
+	// console.log("num_hearts init", localStorage.getItem("num_hearts"));
 };
 
 let crossListSuspect = (idSuspect) => {
@@ -133,7 +133,7 @@ let generateListRooms = (arrRooms) => {
 		// console.log("rooms", rooms);
 		let list = document.createElement("li");
 		list.innerHTML = `<p class="list-rooms" id="list-rooms-${rooms.id}" > ${rooms.id}.- ${rooms.name} \n </p> `;
-		console.log("-->", list);
+
 		containerListRooms.appendChild(list);
 	});
 };
@@ -253,8 +253,8 @@ let checkWeapons = (arrayWeapons, idWeapon) => {
 	num_hearts = parseInt(localStorage.getItem("num_hearts"));
 	id_weapon_mistery = parseInt(localStorage.getItem("id_weapon"));
 
-	console.log("id_weapon real", id_weapon_mistery);
-	console.log("id_weapon intento", idWeapon);
+	// console.log("id_weapon real", id_weapon_mistery);
+	// console.log("id_weapon intento", idWeapon);
 
 	if (num_hearts != 0) {
 		if (id_weapon_mistery !== idWeapon) {
@@ -402,8 +402,6 @@ let paintingCharacters = (arrSuspects) => {
 		let btnAccuse = document.getElementById(`btn-possAssesin-${character.id}`);
 		btnAccuse.onclick = () => checkAssasin(arrSuspects, character.id);
 	});
-
-	console.log("	num_hearts en painting", num_hearts);
 };
 
 let paintingWeapons = (arrWeapons) => {
@@ -512,7 +510,7 @@ let swatSuspectFail = (suspect, suspect_name) => {
 	Swal.fire({
 		toast: true,
 		imageUrl: `./characters/${suspect_name}_cross.png`,
-		title: `Fallaste, el asesino no es ${suspect}`,
+		html: `<p class="txt-fail"> Fallaste, el asesino no es <span> ${suspect} </span> </p>`,
 		position: "center",
 		showConfirmButton: false,
 		timer: 1500,

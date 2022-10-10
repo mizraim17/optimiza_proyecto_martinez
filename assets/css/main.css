@@ -124,3 +124,12 @@ body {
   .swa-text span {
     font-style: italic;
     font-weight: bold; }
+
+.txt-fail {
+  font-size: 22px;
+  font-weight: normal;
+  color: #f56d8f; }
+  .txt-fail span {
+    font-weight: 24px;
+    color: tomato;
+    font-weight: bold; }
