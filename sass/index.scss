@@ -46,7 +46,8 @@ body {
 }
 
 .list-weapons,
-.list-suspects {
+.list-suspects,
+.list-rooms {
 	@extend .base-list;
 }
 
@@ -54,7 +55,8 @@ body {
 	margin-top: 2%;
 }
 .tit-list-suspects,
-.tit-list-weapons {
+.tit-list-weapons,
+.tit-list-rooms {
 	padding-top: 8%;
 	color: $green;
 	font-size: 20px;
@@ -154,4 +156,20 @@ body {
 .fa-solid {
 	color: $rose-2 !important;
 	padding-right: 4px;
+}
+
+#container-score {
+	@extend .tit-points;
+	color: yellow;
+}
+
+.swa-text {
+	font-size: 24px;
+	font-weight: normal;
+	color: #f56d8f;
+
+	span {
+		font-style: italic;
+		font-weight: bold;
+	}
 }

@@ -78,7 +78,9 @@ let initElements = () => {
 	name_rooms = document.getElementById("name_rooms");
 	person_murder = document.getElementById("person_murder");
 	container_hearts = document.getElementById("hearts");
+	containerScore = document.getElementById("container-score");
 	localStorage.setItem("num_hearts", 2);
+	localStorage.setItem("score", 1200);
 
 	console.log("num_hearts init", localStorage.getItem("num_hearts"));
 };
@@ -102,7 +104,7 @@ let crossListWeapon = (idWeapon) => {
 let crossListRoom = (idRoom) => {
 	console.log("idRoom--------->", idRoom);
 	id_room = idRoom;
-	suspect_list = document.getElementById(`${id_room}`);
+	suspect_list = document.getElementById(`list-rooms-${id_room}`);
 	suspect_list.classList = "cross-text";
 };
 
@@ -126,12 +128,12 @@ let generateListWeapons = (arrWeapons) => {
 };
 
 let generateListRooms = (arrRooms) => {
-	// console.log("arrWeapons---list", arrRooms);
-
 	containerListRooms.innerHTML = "";
 	arrRooms.forEach((rooms) => {
+		// console.log("rooms", rooms);
 		let list = document.createElement("li");
-		list.innerHTML = `<p class="list-Rooms" id="list-room-${rooms.id} > ${rooms.id}.- ${rooms.name} \n </p> `;
+		list.innerHTML = `<p class="list-rooms" id="list-rooms-${rooms.id}" > ${rooms.id}.- ${rooms.name} \n </p> `;
+		console.log("-->", list);
 		containerListRooms.appendChild(list);
 	});
 };
@@ -170,20 +172,21 @@ let checkAssasin = (asseMurder, idSuspect) => {
 			showAssasin();
 		}
 	} else if (num_hearts == 0) {
-		showLose(id_assasin_mistery);
+		showLoseAssasin(id_assasin_mistery);
 	}
 };
 
 let rebootGame = () => {
-	console.log("entor al rebootGame");
 	localStorage.clear();
 	main();
 };
 
-let showLose = (id_assasin) => {
+let showLoseAssasin = (id_assasin) => {
+	score = localStorage.getItem("score");
+
 	Swal.fire({
 		imageUrl: `./characters/${suspectsArray[id_assasin].name_image}.png`,
-		title: `Perdiste el asesino era ${suspectsArray[id_assasin].name}`,
+		html: `<p class="swa-text">Perdiste el asesino era <span> ${suspectsArray[id_assasin].name} </span> <br> tu puntajes fue de <b> ${score} </b> <p>`,
 		position: "center",
 		showCancelButton: true,
 		confirmButtonText: "Jugar nuevamente",
@@ -207,7 +210,29 @@ let showLoseWeapon = (idWeapon) => {
 
 	Swal.fire({
 		imageUrl: `./weapons/${weaponsArray[idWeapon].name_image}.png`,
-		title: `Perdiste el arma era la ${weaponsArray[idWeapon].name}`,
+		title: `<p class="swa-text"> Perdiste el arma era la ${weaponsArray[idWeapon].name} </span> <br> tu puntajes fue de <b> ${score} </b> <p></p>`,
+		position: "center",
+		showCancelButton: true,
+		confirmButtonText: "Jugar nuevamente",
+	}).then((result) => {
+		if (result.isConfirmed) {
+			console.log("entor al sweet");
+			rebootGame();
+		} else if (result.isDenied) {
+			Swal.fire("Adios", "", "error");
+		}
+	});
+};
+
+let showLoseRoom = (idRoom) => {
+	id_room_mistery = parseInt(localStorage.getItem("id_room"));
+
+	console.log("idRoom en showlose", idRoom);
+	console.log("id_weapon_mistery en showlose ", id_room_mistery);
+
+	Swal.fire({
+		imageUrl: `./weapons/${roomsArray[idRoom].name_image}.png`,
+		title: `<p class="swa-text">  Perdiste el lugar era la ${roomsArray[idRoom].name} </span> <br> tu puntajes fue de <b> ${score} </b> <p></p>`,
 		position: "center",
 		showCancelButton: true,
 		confirmButtonText: "Jugar nuevamente",
@@ -264,14 +289,15 @@ let checkRooms = (arrayRooms, idRoomPlayer) => {
 
 	if (num_hearts != 0) {
 		if (roomsArray[id_room_real].id !== idRoomPlayer) {
-			arrayRooms = arrayRooms.filter((item) => item.id !== idRoomPlayer);
+			copyArrRooms = copyArrRooms.filter((item) => item.id !== idRoomPlayer);
 
 			num_hearts--;
 			localStorage.setItem("num_hearts", num_hearts);
 
-			paintingRooms(arrayRooms);
-			generateListRooms(arrayRooms);
-			crossListWeapon(idRoomPlayer);
+			paintHearts(num_hearts);
+			paintingRooms(copyArrRooms);
+
+			crossListRoom(idRoomPlayer);
 			playSound("lose");
 			swatRoomFail(roomsArray[idRoomPlayer], "error");
 		} else if (roomsArray[id_room_real].id == idRoomPlayer) {
@@ -348,7 +374,7 @@ let showRooms = () => {
 	containerRooms.append(column);
 	containerListRooms.innerHTML = "";
 	list = document.createElement("li");
-	list.innerHTML = `<p class="list-Rooms" > ${id_room}.- ${roomsArray[id_room].name} \n </p> `;
+	list.innerHTML = `<p class="list-rooms" > ${id_room}.- ${roomsArray[id_room].name} \n </p> `;
 	containerListRooms.appendChild(list);
 };
 
@@ -493,9 +519,10 @@ let swatSuspectFail = (suspect, suspect_name) => {
 		timerProgressBar: true,
 	});
 
+	checkScore();
 	console.log("de donde diablo", id_assasin_mistery);
 	num_hearts == 0
-		? showLose(id_assasin_mistery)
+		? showLoseAssasin(id_assasin_mistery)
 		: console.log(" no es 0--------------");
 };
 
@@ -506,12 +533,14 @@ let swatWeaponsFail = (weaponsArray) => {
 	Swal.fire({
 		toast: true,
 		imageUrl: `./weapons/${name_image}_cross.png`,
-		title: `Fallaste, el armas no es la ${name}`,
+		title: `Fallaste, el arma no es la ${name}`,
 		position: "center",
 		showConfirmButton: false,
 		timer: 1500,
 		timerProgressBar: true,
 	});
+
+	checkScore();
 
 	num_hearts == 0
 		? showLoseWeapon(id_weapon_mistery)
@@ -520,22 +549,40 @@ let swatWeaponsFail = (weaponsArray) => {
 
 let swatRoomFail = (roomsArray) => {
 	let { id, name, name_image } = roomsArray;
-	id_rooms_mistery = parseInt(localStorage.getItem("id_rooms"));
+	id_rooms_mistery = parseInt(localStorage.getItem("id_room"));
 
 	Swal.fire({
 		toast: true,
 		imageUrl: `./rooms/${name_image}_cross.png`,
-		title: `Fallaste, el armas no es la ${name}`,
+		title: `Fallaste, el lugar  no es la ${name}`,
 		position: "center",
 		showConfirmButton: false,
 		timer: 1500,
 		timerProgressBar: true,
 	});
 
+	checkScore();
+
 	num_hearts == 0
-		? showLoseWeapon(id_rooms_mistery)
+		? showLoseRoom(id_rooms_mistery)
 		: console.log(" aun tiene corazones");
 };
+
+let checkScore = () => {
+	newPoints = parseInt(localStorage.getItem("score"));
+	console.log("--->", typeof newPoints);
+	score = newPoints - 100;
+	localStorage.setItem("score", score);
+	paintingScore(score);
+};
+
+let paintingScore = () => {
+	newPoints = parseInt(localStorage.getItem("score"));
+
+	containerScore.innerHTML = `${newPoints}`;
+};
+
+let score = 12000;
 
 let main = () => {
 	//Stores elements in variables
@@ -543,9 +590,6 @@ let main = () => {
 
 	//Generate name person murder and array without person murdered
 	[arrayWithoutMurdered, numPersonMurdered] = genereAssesinMurder();
-
-	// console.log("arrToPlay[0]", arrayWithoutMurdered);
-	// console.log("arrToPlay[1]", numPersonMurdered);
 
 	//Generete suspects, weapons and rooms
 	generateListSuspects(arrayWithoutMurdered);
@@ -557,8 +601,9 @@ let main = () => {
 	paintingCharacters(arrayWithoutMurdered);
 	paintingWeapons(weaponsArray);
 	paintingRooms(roomsArray);
+	paintingScore(score);
 
-	paintHearts(num_hearts);
+	paintHearts();
 
 	//generates  assasin, person murder, where die and what weapon was use
 	genereMistery(arrayWithoutMurdered, numPersonMurdered);
