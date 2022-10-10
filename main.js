@@ -186,7 +186,7 @@ let showLoseAssasin = (id_assasin) => {
 
 	Swal.fire({
 		imageUrl: `./characters/${suspectsArray[id_assasin].name_image}.png`,
-		html: `<p class="swa-text">Perdiste el asesino era <span> ${suspectsArray[id_assasin].name} </span> <br> tu puntajes fue de <span> ${score} </span> <p>`,
+		html: `<p class="swa-text">Perdiste el asesino era <span> ${suspectsArray[id_assasin].name} </span> <br> tu puntajes fue de <span> ${score} </span> </p>`,
 		position: "center",
 		showCancelButton: true,
 		confirmButtonText: "Jugar nuevamente",
@@ -210,7 +210,7 @@ let showLoseWeapon = (idWeapon) => {
 
 	Swal.fire({
 		imageUrl: `./weapons/${weaponsArray[idWeapon].name_image}.png`,
-		title: `<p class="swa-text"> Perdiste el arma era la ${weaponsArray[idWeapon].name} </span> <br> tu puntajes fue de <b> ${score} </b> <p></p>`,
+		html: `<p class="swa-text"> Perdiste el arma era la <span> ${weaponsArray[idWeapon].name} </span> <br> tu puntajes fue de <span>  ${score} </span>  </p>`,
 		position: "center",
 		showCancelButton: true,
 		confirmButtonText: "Jugar nuevamente",
@@ -232,7 +232,7 @@ let showLoseRoom = (idRoom) => {
 
 	Swal.fire({
 		imageUrl: `./weapons/${roomsArray[idRoom].name_image}.png`,
-		title: `<p class="swa-text">  Perdiste el lugar era la ${roomsArray[idRoom].name} </span> <br> tu puntajes fue de <b> ${score} </b> <p></p>`,
+		html: `<p class="swa-text">  Perdiste el lugar era la <span>  ${roomsArray[idRoom].name} </span> <br> tu puntajes fue de  <span>  ${score}  </span>  </p>`,
 		position: "center",
 		showCancelButton: true,
 		confirmButtonText: "Jugar nuevamente",
@@ -531,7 +531,7 @@ let swatWeaponsFail = (weaponsArray) => {
 	Swal.fire({
 		toast: true,
 		imageUrl: `./weapons/${name_image}_cross.png`,
-		title: `Fallaste, el arma no es la ${name}`,
+		html: `<p class="txt-fail"> Fallaste, el arma no es la <span> ${name} </span> </p>`,
 		position: "center",
 		showConfirmButton: false,
 		timer: 1500,
@@ -552,7 +552,7 @@ let swatRoomFail = (roomsArray) => {
 	Swal.fire({
 		toast: true,
 		imageUrl: `./rooms/${name_image}_cross.png`,
-		title: `Fallaste, el lugar  no es la ${name}`,
+		html: `<p class="txt-fail"> Fallaste, el lugar no es la <span> ${name} </span> </p>`,
 		position: "center",
 		showConfirmButton: false,
 		timer: 1500,
