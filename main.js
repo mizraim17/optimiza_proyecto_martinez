@@ -102,7 +102,7 @@ let crossListWeapon = (idWeapon) => {
 };
 
 let crossListRoom = (idRoom) => {
-	console.log("idRoom--------->", idRoom);
+	// console.log("idRoom--------->", idRoom);
 	id_room = idRoom;
 	suspect_list = document.getElementById(`list-rooms-${id_room}`);
 	suspect_list.classList = "cross-text";
@@ -145,9 +145,9 @@ let checkAssasin = (asseMurder, idSuspect) => {
 	num_hearts = parseInt(localStorage.getItem("num_hearts"));
 	id_assasin_mistery = parseInt(localStorage.getItem("id_assasin"));
 
-	console.log("id_assasin real", id_assasin_mistery);
-	console.log("id_assasin", idSuspect);
-	console.log("num_hearts checkAssasin", num_hearts);
+	// console.log("id_assasin real", id_assasin_mistery);
+	// console.log("id_assasin", idSuspect);
+	// console.log("num_hearts checkAssasin", num_hearts);
 
 	if (num_hearts != 0) {
 		if (id_assasin_mistery !== idSuspect) {
@@ -192,21 +192,18 @@ let showLoseAssasin = (id_assasin) => {
 		confirmButtonText: "Jugar nuevamente",
 	}).then((result) => {
 		if (result.isConfirmed) {
-			console.log("entor al sweet");
 			rebootGame();
 		} else if (result.isDenied) {
 			Swal.fire("Adios", "", "error");
 		}
 	});
-
-	console.log("corazone", localStorage.getItem("num_hearts"));
 };
 
 let showLoseWeapon = (idWeapon) => {
 	id_weapon_mistery = parseInt(localStorage.getItem("id_weapon"));
 
-	console.log("idWeapon en showlose", idWeapon);
-	console.log("id_weapon_mistery en showlose ", id_weapon_mistery);
+	// console.log("idWeapon en showlose", idWeapon);
+	// console.log("id_weapon_mistery en showlose ", id_weapon_mistery);
 
 	Swal.fire({
 		imageUrl: `./weapons/${weaponsArray[idWeapon].name_image}.png`,
@@ -216,7 +213,6 @@ let showLoseWeapon = (idWeapon) => {
 		confirmButtonText: "Jugar nuevamente",
 	}).then((result) => {
 		if (result.isConfirmed) {
-			console.log("entor al sweet");
 			rebootGame();
 		} else if (result.isDenied) {
 			Swal.fire("Adios", "", "error");
@@ -227,8 +223,8 @@ let showLoseWeapon = (idWeapon) => {
 let showLoseRoom = (idRoom) => {
 	id_room_mistery = parseInt(localStorage.getItem("id_room"));
 
-	console.log("idRoom en showlose", idRoom);
-	console.log("id_weapon_mistery en showlose ", id_room_mistery);
+	// console.log("idRoom en showlose", idRoom);
+	// console.log("id_weapon_mistery en showlose ", id_room_mistery);
 
 	Swal.fire({
 		imageUrl: `./weapons/${roomsArray[idRoom].name_image}.png`,
@@ -238,7 +234,6 @@ let showLoseRoom = (idRoom) => {
 		confirmButtonText: "Jugar nuevamente",
 	}).then((result) => {
 		if (result.isConfirmed) {
-			console.log("entor al sweet");
 			rebootGame();
 		} else if (result.isDenied) {
 			Swal.fire("Adios", "", "error");
@@ -276,7 +271,7 @@ let checkWeapons = (arrayWeapons, idWeapon) => {
 	} else if (num_hearts == 0) {
 		showLoseWeapon(id_weapon_mistery);
 	}
-	console.log(" num_hearts en check es", num_hearts);
+	// console.log(" num_hearts en check es", num_hearts);
 };
 
 let checkRooms = (arrayRooms, idRoomPlayer) => {
@@ -284,8 +279,8 @@ let checkRooms = (arrayRooms, idRoomPlayer) => {
 	num_hearts = parseInt(localStorage.getItem("num_hearts"));
 	id_room_real = localStorage.getItem("id_room");
 
-	console.log("id_room real", id_room_real);
-	console.log("id_room intento", idRoomPlayer);
+	// console.log("id_room real", id_room_real);
+	// console.log("id_room intento", idRoomPlayer);
 
 	if (num_hearts != 0) {
 		if (roomsArray[id_room_real].id !== idRoomPlayer) {
@@ -518,7 +513,7 @@ let swatSuspectFail = (suspect, suspect_name) => {
 	});
 
 	checkScore();
-	console.log("de donde diablo", id_assasin_mistery);
+
 	num_hearts == 0
 		? showLoseAssasin(id_assasin_mistery)
 		: console.log(" no es 0--------------");
@@ -568,7 +563,6 @@ let swatRoomFail = (roomsArray) => {
 
 let checkScore = () => {
 	newPoints = parseInt(localStorage.getItem("score"));
-	console.log("--->", typeof newPoints);
 	score = newPoints - 100;
 	localStorage.setItem("score", score);
 	paintingScore(score);
